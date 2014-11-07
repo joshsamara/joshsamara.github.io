@@ -9,12 +9,14 @@ GITHUB_REPONAME = "joshsamara/joshsamara.github.io"
 
 desc "Generate blog files"
 task :generate do
-  system "git stash"
+  stash_result = `git stash`
   Jekyll::Site.new(Jekyll.configuration({
     "source"      => ".",
     "destination" => "_site"
   })).process
-  system "git stash pop"
+  if stash_result.split(" ")[0] == "Saved"
+    system "git stash pop"
+  end
 end
 
 

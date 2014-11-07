@@ -18,6 +18,7 @@ end
 
 desc "Generate and publish blog to gh-pages"
 task :publish => [:generate] do
+  system "git stash"
   Dir.mktmpdir do |tmp|
     cp_r "_site/.", tmp
 
@@ -32,5 +33,6 @@ task :publish => [:generate] do
     system "git push origin master --force"
 
     Dir.chdir pwd
+  system "git stash pop"
   end
 end
